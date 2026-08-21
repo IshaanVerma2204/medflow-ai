@@ -52,7 +52,12 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
 
 @router.get("/me", response_model=UserResponse)
 def get_me(current_user: User = Depends(get_current_active_user)):
-    return current_user
+    user_resp = UserResponse.model_validate(current_user)
+    if current_user.role == UserRole.PATIENT and current_user.patient_profile:
+        user_resp.patient_profile_id = current_user.patient_profile.id
+    elif current_user.role == UserRole.CLINICIAN and current_user.clinician_profile:
+        user_resp.clinician_profile_id = current_user.clinician_profile.id
+    return user_resp
 
 @router.post("/logout")
 def logout():

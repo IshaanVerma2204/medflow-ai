@@ -30,6 +30,8 @@ class UserResponse(BaseModel):
     role: UserRole
     is_active: bool
     created_at: datetime
+    patient_profile_id: Optional[UUID] = None
+    clinician_profile_id: Optional[UUID] = None
 
     class Config:
         from_attributes = True

@@ -5,10 +5,13 @@ Handles chat, document analysis trigger, flags, and agent run status.
 import uuid
 from datetime import datetime
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, Body
+from fastapi import APIRouter, Depends, HTTPException, Body, UploadFile, File
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
+import tempfile
+import os
 
+from app.config import settings
 from app.database import get_db
 from app.models.user import User, UserRole
 from app.models.ai import AIFlag, AgentRun, AgentMessage, AuditLog
@@ -95,6 +98,39 @@ def chat_with_rag(
         is_mock=result.get("is_mock", False),
     )
 
+
+# ─── Speech Transcription (Whisper) ───────────────────────────────────────────
+
+@router.post("/transcribe")
+async def transcribe_audio(
+    file: UploadFile = File(...),
+    current_user: User = Depends(get_current_active_user),
+):
+    """High-accuracy medical speech-to-text using OpenAI Whisper."""
+    if settings.is_mock_ai:
+        return {"text": "What are my current medications? (Note: Add OpenAI API Key for real transcription)"}
+        
+    try:
+        from openai import OpenAI
+        client = OpenAI(api_key=settings.OPENAI_API_KEY)
+        
+        # Whisper requires a file-like object with a name, so we save the upload temp
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".webm") as temp_file:
+            content = await file.read()
+            temp_file.write(content)
+            temp_path = temp_file.name
+            
+        with open(temp_path, "rb") as audio_file:
+            transcription = client.audio.transcriptions.create(
+                model="whisper-1",
+                file=audio_file,
+                prompt="medical terminology, amoxicillin, hba1c, metformin, diagnosis, follow-up"
+            )
+            
+        os.remove(temp_path)
+        return {"text": transcription.text}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 # ─── Document Analysis Trigger ────────────────────────────────────────────────
 

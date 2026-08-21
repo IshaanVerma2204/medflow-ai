@@ -11,7 +11,7 @@ app = FastAPI(title="MedFlow AI API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -31,6 +31,6 @@ def on_startup():
     except Exception as e:
         logging.error(f"Failed to create bucket on startup: {e}")
 
-@app.get("/health")
+@app.get("/api/health")
 def health_check():
     return {"status": "ok", "version": "1.0.0"}

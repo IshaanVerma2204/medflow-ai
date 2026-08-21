@@ -6,6 +6,8 @@ export interface User {
   full_name: string
   role: UserRole
   is_active: boolean
+  patient_profile_id?: string
+  clinician_profile_id?: string
   created_at: string
 }
 

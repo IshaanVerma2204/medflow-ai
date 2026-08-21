@@ -374,7 +374,7 @@ def log_agent_message(run_id: str, agent_name: str, message_type: str, content: 
         agent_name=agent_name,
         message_type=message_type,
         content=content,
-        metadata=metadata,
+        message_metadata=metadata,
     )
     db.add(msg)
     db.commit()

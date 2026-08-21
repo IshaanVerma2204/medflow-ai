@@ -46,7 +46,7 @@ class AgentMessage(BaseModel):
     agent_name: str
     message_type: str
     content: str
-    metadata: Optional[Dict[str, Any]] = None
+    message_metadata: Optional[Dict[str, Any]] = None
     created_at: datetime
 
     class Config:

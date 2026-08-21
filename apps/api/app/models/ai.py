@@ -44,7 +44,7 @@ class AgentMessage(Base):
     agent_name = Column(String, nullable=False)
     message_type = Column(String, nullable=False)
     content = Column(String, nullable=False)
-    metadata = Column(JSON, nullable=True)
+    message_metadata = Column(JSON, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
 class ToolCall(Base):
