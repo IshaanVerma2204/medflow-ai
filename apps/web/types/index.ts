@@ -61,7 +61,7 @@ export interface LabResult {
   unit?: string
   reference_range?: string
   is_abnormal?: boolean
-  test_date?: string
+  test_date?: string`n  source_text?: string
 }
 
 export interface FollowUpTask {
