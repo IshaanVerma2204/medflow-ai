@@ -39,7 +39,7 @@ export interface Medication {
   dosage?: string
   frequency?: string
   route?: string
-  status: string
+  status: string`n  source_text?: string
   is_current: boolean
   prescriber?: string
   start_date?: string
@@ -50,7 +50,7 @@ export interface Diagnosis {
   name: string
   icd_code?: string
   diagnosed_date?: string
-  status: string
+  status: string`n  source_text?: string
   severity?: string
 }
 
@@ -70,7 +70,7 @@ export interface FollowUpTask {
   task_type: string
   due_date?: string
   priority: string
-  status: string
+  status: string`n  source_text?: string
   responsible_role: string
 }
 
@@ -106,7 +106,7 @@ export interface EvidenceItem {
 export interface AgentRun {
   id: string
   workflow_type: string
-  status: string
+  status: string`n  source_text?: string
   started_at: string
   completed_at?: string
 }
