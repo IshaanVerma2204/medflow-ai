@@ -4,4 +4,6 @@ RUN apt-get update && apt-get install -y tesseract-ocr libpq-dev gcc && rm -rf /
 COPY requirements.txt .
 RUN pip install --default-timeout=1000 --no-cache-dir -r requirements.txt
 COPY . .
+EXPOSE 10000
 CMD ["python", "-m", "app.main"]
+
