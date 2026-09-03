@@ -89,10 +89,12 @@ export function useSpeech() {
   }, [])
 
   const speak = useCallback((text: string) => {
-    if (!voiceEnabled || typeof window !== 'undefined') return
+    if (!voiceEnabled || typeof window === 'undefined') return
+
+    const win = window as Window & typeof globalThis
 
     // cancel any ongoing speech
-    window.speechSynthesis.cancel()
+    win.speechSynthesis.cancel()
 
     // strip markdown and extra symbols for cleaner speech
     const cleanText = text.replace(/[*#_\[\]()]/g, '').trim()
@@ -101,7 +103,7 @@ export function useSpeech() {
     const utterance = new SpeechSynthesisUtterance(cleanText)
 
     // Attempt to find a natural sounding English female voice
-    const voices = window.speechSynthesis.getVoices()
+    const voices = win.speechSynthesis.getVoices()
     const preferredVoices = voices.filter(v =>
       v.lang.startsWith('en') &&
       (v.name.includes('Female') || v.name.includes('Samantha') || v.name.includes('Google UK English Female') || v.name.includes('Zira'))
@@ -118,7 +120,7 @@ export function useSpeech() {
     utterance.onend = () => setIsSpeaking(false)
     utterance.onerror = () => setIsSpeaking(false)
 
-    window.speechSynthesis.speak(utterance)
+    win.speechSynthesis.speak(utterance)
   }, [voiceEnabled])
 
   const stopSpeaking = useCallback(() => {

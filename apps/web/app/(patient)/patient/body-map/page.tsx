@@ -27,6 +27,14 @@ interface BodySystem {
   keywords: string[]
   cx: number
   cy: number
+  bg?: string
+  color?: string
+  glow?: string
+  relatedDiags?: import('@/types').Diagnosis[]
+  relatedMeds?: import('@/types').Medication[]
+  relatedLabs?: import('@/types').LabResult[]
+  isActive?: boolean
+  severityState?: string
 }
 
 const SYSTEM_MAP: Record<SystemId, BodySystem> = {
