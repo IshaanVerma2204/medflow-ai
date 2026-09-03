@@ -7,7 +7,7 @@ import {
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL
   ? (process.env.NEXT_PUBLIC_API_URL.replace(/\/api\/?$/, '') + '/api')
-  : 'https://medflow-ai-edh0.onrender.com/api'
+  : 'https://medflow-ai-edh9.onrender.com/api'
 
 const axiosInstance = axios.create({
   baseURL: API_BASE,
