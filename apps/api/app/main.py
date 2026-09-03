@@ -45,6 +45,7 @@ def on_startup():
     except Exception as e:
         logging.error(f"Failed to create bucket on startup: {e}")
 
+@app.head("/")
 @app.get("/")
 def read_root():
     return {"status": "ok", "message": "MedFlow AI API is running"}
