@@ -9,9 +9,23 @@ logging.basicConfig(level=logging.INFO)
 
 app = FastAPI(title="MedFlow AI API", version="1.0.0")
 
+import os
+
+CORS_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "https://medflow-ai-xcjl.vercel.app",
+    "https://medflow-ai.vercel.app",
+]
+
+# Also allow any additional origins from environment variable
+extra = os.getenv("CORS_ORIGINS", "")
+if extra:
+    CORS_ORIGINS += [o.strip() for o in extra.split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
