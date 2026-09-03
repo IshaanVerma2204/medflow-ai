@@ -5,8 +5,12 @@ import {
   FollowUpTask, TimelineEvent, AIFlag, AgentRun, AuditLog, Notification
 } from '@/types'
 
+const API_BASE = process.env.NEXT_PUBLIC_API_URL
+  ? (process.env.NEXT_PUBLIC_API_URL.replace(/\/api\/?$/, '') + '/api')
+  : 'https://medflow-ai-edh0.onrender.com/api'
+
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}/api` : 'http://localhost:8000/api',
+  baseURL: API_BASE,
 })
 
 axiosInstance.interceptors.request.use((config) => {
